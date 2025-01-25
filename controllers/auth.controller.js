@@ -63,8 +63,8 @@ class AuthController {
 
       res.cookie("refreshToken", data.refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict", // XSS hujumlariga qarshi
+        secure: true, // Netlifyda ishlash uchun kerak
+        sameSite: "strict", // XSS hujumlarini oldini olish uchun
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30 kun
       });
 
