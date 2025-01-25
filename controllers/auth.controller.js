@@ -53,7 +53,7 @@ class AuthController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      console.log(refreshToken);
+      console.log(req.cookies);
 
       if (!refreshToken) {
         return res.status(401).json({ message: "Refresh token is missing" });
