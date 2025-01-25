@@ -22,11 +22,6 @@ app.use(cookieParser());
 app.use(express.static("static"));
 app.use(fileUpload());
 
-app.use((req, res, next) => {
-  console.log("Cookies received:", req.cookies);
-  next();
-});
-
 // Routes
 app.use("/api/post", require("./routes/post.route"));
 app.use("/api/auth", require("./routes/auth.route"));
