@@ -16,6 +16,11 @@ app.use(
     credentials: true,
   })
 );
+app.use((req, res, next) => {
+  console.log("Cookies received:", req.cookies);
+  next();
+});
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("static"));
