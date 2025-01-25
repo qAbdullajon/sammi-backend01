@@ -70,7 +70,7 @@ class AuthService {
       throw BaseError.UnauthorizedError("Bad authorization");
     }
 
-    const user = await userModel.findById(userPayload.id);
+    const user = await userModel.findById(userPayload._id);
     const userDto = new UserDto(user);
 
     console.log(userPayload);
