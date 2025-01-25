@@ -70,12 +70,9 @@ class AuthService {
       throw BaseError.UnauthorizedError("Bad authorization");
     }
 
-    const user = await userModel.findById(userPayload._id);
-    const userDto = new UserDto(user);
+    const user = await userModel.findById(userPayload.id);
 
-    console.log("userPayload", userPayload);
-    console.log("tokenDb", tokenDb);
-    console.log("user", user);
+    const userDto = new UserDto(user);
 
     const tokens = tokenService.generateToken({ ...userDto });
 
