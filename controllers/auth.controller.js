@@ -53,10 +53,21 @@ class AuthController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-      console.log("refreshToken", refreshToken);
+      console.log(refreshToken);
+
+      if (!refreshToken) {
+        return res.status(401).json({ message: "Refresh token is missing" });
+      }
+
       const data = await authService.refresh(refreshToken);
-      console.log("data", data);
-      res.cookie("refreshToken", data.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
+
+      res.cookie("refreshToken", data.refreshToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict", // XSS hujumlariga qarshi
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 kun
+      });
+
       return res.json(data);
     } catch (error) {
       next(error);
