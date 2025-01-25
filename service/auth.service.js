@@ -73,9 +73,9 @@ class AuthService {
     const user = await userModel.findById(userPayload._id);
     const userDto = new UserDto(user);
 
-    console.log(userPayload);
-    console.log(tokenDb);
-    console.log(user);
+    console.log("userPayload", userPayload);
+    console.log("tokenDb", tokenDb);
+    console.log("user", user);
 
     const tokens = tokenService.generateToken({ ...userDto });
 
