@@ -16,11 +16,13 @@ class AuthService {
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await userModel.create({ email, password: hashPassword });
     const userDto = new UserDto(user);
-    const data = await mailService.sendActivationMail(email, `${process.env.API_URL}/api/auth/activation/${userDto.id}`);
+
+    await mailService.sendActivationMail(email, `${process.env.API_URL}/api/auth/activation/${userDto.id}`);
 
     const tokens = tokenService.generateToken({ ...userDto });
 
     await tokenService.saveToken(userDto.id, tokens.refreshToken);
+
     return { user: userDto, ...tokens };
   }
 
@@ -71,7 +73,6 @@ class AuthService {
     }
 
     const user = await userModel.findById(userPayload.id);
-
     const userDto = new UserDto(user);
 
     const tokens = tokenService.generateToken({ ...userDto });

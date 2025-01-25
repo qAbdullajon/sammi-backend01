@@ -53,20 +53,8 @@ class AuthController {
   async refresh(req, res, next) {
     try {
       const { refreshToken } = req.cookies;
-
-      if (!refreshToken) {
-        return res.status(401).json({ message: "Refresh token is missing" });
-      }
-
       const data = await authService.refresh(refreshToken);
-
-      res.cookie("refreshToken", data.refreshToken, {
-        httpOnly: true,
-        secure: true, // Netlifyda ishlash uchun kerak
-        sameSite: "strict", // XSS hujumlarini oldini olish uchun
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 kun
-      });
-
+      res.cookie("refreshToken", data.refreshToken, { httpOnly: true, maxAge: 30 * 24 * 60 * 60 * 1000 });
       return res.json(data);
     } catch (error) {
       next(error);
